@@ -1,4 +1,5 @@
 ﻿#include <iostream>
+#include <vector>
 #include <fstream>
 #include <string>
 
@@ -46,6 +47,10 @@ int main(const int argc, char* argv[])
 	}
 
 	int numberOfPolygons; //Количество многоугольников
+
+	vector<vector<double>> initialCoordinatesVector; //двумерный вектор, содержащий многоугольники (вектор многоугольников)
+
+	vector<vector<double>> totalCoordinatesVector;
 
 	int numberOfVertices; //количество вершин в многоугольнике
 
