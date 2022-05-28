@@ -46,6 +46,8 @@ int main(const int argc, char* argv[])
 		outputFile.trunc;
 	}
 
+	string inStr; //Переменная считывающая данные из файла ввода
+
 	int numberOfPolygons; //Количество многоугольников
 
 	vector<vector<double>> initialCoordinatesVector; //двумерный вектор, содержащий многоугольники (вектор многоугольников)
@@ -55,6 +57,61 @@ int main(const int argc, char* argv[])
 	int numberOfVertices; //количество вершин в многоугольнике
 
 	double coordinateItself; //сама координата
+
+	while (!inputFile.eof())
+	{
+		inStr = "";
+
+		inputFile >> inStr;
+
+		numberOfPolygons = std::stoi(inStr); //считывание количества многоугольников из файла ввода
+
+		if (numberOfPolygons < 0) // Если количество многоугольников меньше нуля
+		{
+			outputFile << "The number of polygons is incorrectly specified.";
+			return 0;
+		}
+		else if (numberOfPolygons == 0) // Если количество многоугольников равно нулю
+		{
+			outputFile << "There are no polygons on the plane.";
+			return 0;
+		}
+
+		initialCoordinatesVector.resize(numberOfPolygons);
+
+		for (int i = 0; i < numberOfPolygons; i++) // Для каждого многоугольника
+		{
+			inputFile >> inStr;
+
+			numberOfVertices = std::stoi(inStr); //считывание количества вершин в многоугольнике из файла ввода
+
+			if (numberOfVertices < 3) //если количество вершин меньше трех - не получится замкнутой фигуры
+			{
+				outputFile << "The number of vertices in " << i + 1 << " polygon is incorrectly specified.";
+				return 0;
+			}
+
+			initialCoordinatesVector[i].resize(2 * numberOfVertices);
+
+			for (int j = 0; j < (2 * numberOfVertices); j++) // Для каждой координаты многоугольника
+			{
+				inputFile >> inStr;
+
+				coordinateItself = std::stod(inStr); //считывание координаты из файла ввода
+
+				initialCoordinatesVector[i][j] = coordinateItself; // Записать координату в многоугольник 
+			}
+		}
+	}
+
+	for (int i = 0; i < numberOfPolygons; i++) // Цикл, который идёт по строкам
+	{
+		for (int j = 0; j < totalCoordinatesVector[i].size(); j += 2) // Цикл, который идёт по элементам
+		{
+			outputFile << "(" << totalCoordinatesVector[i][j] << ";" << totalCoordinatesVector[i][j + 1] << ") "; // Вывод элементов i строки вектора
+		}
+		outputFile << endl;
+	}
 
 	outputFile.close();
 
