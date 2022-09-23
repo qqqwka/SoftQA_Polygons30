@@ -66,6 +66,43 @@ bool isPolygonConvex(vector<double>& points)
 	return true; // Многоугольник - выпуклый
 }
 
+struct point //Структура координат точки
+{
+	double x;
+	double y;
+};
+
+/*
+Проверить нахождение точки в многоугольнике
+\param[in] XofPoint - координата X точки
+\param[in] YofPoint - координата Y точки
+\param[in] vec - вектор, содержащий координаты многоугольника
+*/
+bool isPointInPolygon(double XofPoint, double YofPoint, vector<double>& vec)
+{
+	point SomePoint; // Точка, нахождение внутри многоугольника которой будет проверяться
+
+	SomePoint.x = XofPoint;
+
+	SomePoint.y = YofPoint;
+
+	bool result = false; // Результат
+
+	int j = vec.size() - 1;
+
+	for (int i = 0; i < vec.size() - 1; i++) {
+
+		// Если прямая, выходящая из точки, проходит четное количество ребер
+		if ((vec[i + 1] < SomePoint.y && vec[j] >= SomePoint.y || vec[j] < SomePoint.y && vec[i + 1] >= SomePoint.y) &&
+			(vec[i] + (SomePoint.y - vec[i + 1]) / (vec[j] - vec[i + 1]) * (vec[j - 1] - vec[i]) < SomePoint.x))
+			result = !result;
+
+		j = i + 1;
+	}
+
+	return result; // Вернуть результат
+}
+
 int main(const int argc, char* argv[])
 {
 	//----------ПРОВЕРКА ОШИБОК РАБОТЫ С ФАЙЛАМИ----------
@@ -200,6 +237,71 @@ int main(const int argc, char* argv[])
 					return 0;
 				}
 			}
+		}
+	}
+
+	totalCoordinatesVector.resize(numberOfPolygons);
+
+	for (int i = 0; i < numberOfPolygons; i++) // Для каждого многоугольника
+	{
+		for (int j = 0; j < initialCoordinatesVector[i].size(); j++) // Для каждой координаты многоугольника
+		{
+			totalCoordinatesVector[i].push_back(initialCoordinatesVector[i][j]); // Вставить координату из изначального вектора во второй
+		}
+	}
+
+	//Вставить в конец вектора координаты первой точки многоугольника для удобства
+	for (int i = 0; i < numberOfPolygons; i++)
+	{
+		initialCoordinatesVector[i].push_back(initialCoordinatesVector[i][0]);
+		initialCoordinatesVector[i].push_back(initialCoordinatesVector[i][1]);
+	}
+
+	//Вставить в конец вектора координаты первой точки многоугольника для удобства
+	for (int i = 0; i < numberOfPolygons; i++)
+	{
+		totalCoordinatesVector[i].push_back(totalCoordinatesVector[i][0]);
+		totalCoordinatesVector[i].push_back(totalCoordinatesVector[i][1]);
+	}
+
+	if (numberOfPolygons > 1)
+	{
+		//УДАЛЕНИЕ ТОЧЕК ВЕКТОРА, ЕСЛИ ОНИ НАХОДЯТСЯ ВНУТРИ ДРУГОГО ВЕКТОРА
+		for (int i = 0; i < numberOfPolygons; i++) // Для каждого многоугольника
+		{
+			for (int j = 0; j < numberOfPolygons; j++) // Для каждого многоугольника
+			{
+				if (i == j && i != numberOfPolygons - 1)
+				{
+					j = j + 1;
+				}
+
+				if (i == j && i == numberOfPolygons - 1) // если оба итератора дошли до последней координаты второго многоугольника
+				{
+					break; // выйти из цикла
+				}
+
+				for (int e = 0; e < totalCoordinatesVector[j].size() - 1; e += 2)
+				{
+					if (isPointInPolygon(totalCoordinatesVector[j][e], totalCoordinatesVector[j][e + 1], totalCoordinatesVector[i]) == 1) // Если есть точка внутри вектора
+					{
+						totalCoordinatesVector[j].erase(totalCoordinatesVector[j].begin() + e); //Удалить эту точку из вектора
+						totalCoordinatesVector[j].erase(totalCoordinatesVector[j].begin() + e); //Удалить эту точку из вектора
+
+					}
+				}
+
+			}
+		}
+	}
+
+	//УДАЛИТЬ ВЕКТОР С КООРДИНАТАМИ, ЕСЛИ ОСТАЛОСЬ 2 ИЛИ МЕНЬШЕ ВЕРШИНЫ
+	for (int i = 0; i < numberOfPolygons; i++) //Для каждого многоугольника
+	{
+		if (totalCoordinatesVector[i].size() <= 4) // Если в многоугольнике меньше, чем  2 или ровно 2 точки
+		{
+			totalCoordinatesVector.erase(totalCoordinatesVector.begin() + i); // Удалить этот многоугольник
+			numberOfPolygons = numberOfPolygons - 1; // Количество многоугольников уменьшить на 1
 		}
 	}
 
