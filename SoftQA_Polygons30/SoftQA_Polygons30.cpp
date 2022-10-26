@@ -103,6 +103,95 @@ bool isPointInPolygon(double XofPoint, double YofPoint, vector<double>& vec)
 	return result; // Вернуть результат
 }
 
+/*
+Проверить, имеют ли два отрезка точку пересечения
+\param[in] x1 - координата X первой точки
+\param[in] y1 - координата Y первой точки
+\param[in] x2 - координата X второй точки
+\param[in] y2 - координата Y второй точки
+\param[in] x3 - координата X третьей точки
+\param[in] y3 - координата Y третьей точки
+\param[in] x4 - координата X четвертой точки
+\param[in] y4 - координата Y четвертой точки
+*/
+bool doSegmentsIntersect(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4)
+{
+	double Ua, Ub, UaNumer, UbNumer, UDenom;
+
+	UaNumer = ((x4 - x3) * (y1 - y3)) - ((y4 - y3) * (x1 - x3)); // Числитель первого уравнения на координаты точки пересечения
+	UbNumer = ((x2 - x1) * (y1 - y3)) - ((y2 - y1) * (x1 - x3)); // Числитель второго уравнения на координаты точки пересечения
+	UDenom = ((y4 - y3) * (x2 - x1)) - ((x4 - x3) * (y2 - y1)); // Знаменатель уравнений на координаты точки пересечения
+
+	if (UDenom == 0) // Если знаменатель равен нулю
+	{
+		return false; // Отрезки не имеют точку пересечения
+	}
+
+	Ua = UaNumer / UDenom; // Первое уравнение на координаты точки пересечения
+
+	Ub = UbNumer / UDenom; // Второе уравнение на координаты точки пересечения
+
+	if (0 <= Ua && Ua <= 1 && 0 <= Ub && Ub <= 1) // Если Ua и Ub принадлежат промежутку [0;1]
+	{
+		return true; // Отрезки имеют точку пересечения
+	}
+	else
+	{
+		return false; // Отрезки не имеют точку пересечения
+	}
+	return false; // Отрезки не имеют точку пересечения
+}
+
+
+/*
+Найти точку пересечения двух отрезков
+\param[in] x1 - координата X первой точки
+\param[in] y1 - координата Y первой точки
+\param[in] x2 - координата X второй точки
+\param[in] y2 - координата Y второй точки
+\param[in] x3 - координата X третьей точки
+\param[in] y3 - координата Y третьей точки
+\param[in] x4 - координата X четвертой точки
+\param[in] y4 - координата Y четвертой точки
+\param[in|out] totalX - координата X точки пересечения
+\param[in|out] totalY - координата Y точки пересечения
+*/
+void findIntersectionPoint(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4, double& totalX, double& totalY)
+{
+	double Ua, Ub, UaNumer, UbNumer, UDenom;
+
+	UaNumer = ((x4 - x3) * (y1 - y3)) - ((y4 - y3) * (x1 - x3)); // Числитель первого уравнения на координаты точки пересечения
+	UbNumer = ((x2 - x1) * (y1 - y3)) - ((y2 - y1) * (x1 - x3)); // Числитель второго уравнения на координаты точки пересечения
+	UDenom = ((y4 - y3) * (x2 - x1)) - ((x4 - x3) * (y2 - y1)); // Знаменатель уравнений на координаты точки пересечения
+
+	Ua = UaNumer / UDenom; // Первое уравнение на координаты точки пересечения
+
+	Ub = UbNumer / UDenom; // Второе уравнение на координаты точки пересечения
+
+	totalX = x1 + (Ua * (x2 - x1)); // Координата X точки пересечения
+	totalY = y1 + (Ua * (y2 - y1)); // Координата Y точки пересечения
+}
+
+
+/*
+Определить, есть ли такая же точка в многоугольнике
+\param[in] vec1 - первый вектор
+\param[in] vec2 - второй вектор
+\param[in] rX - координата X точки пересечения
+\param[in] rY - координата Y точки пересечения
+*/
+bool isIntersectionPointAlreadyInVector(vector<double>& vec1, vector<double>& vec2, double rX, double rY)
+{
+	for (int i = 0; i < vec1.size() - 1; i += 2) // Для каждой точки многоугольника
+	{
+		if (vec1[i] == rX && vec1[i + 1] == rY) // Если точка многоугольника совпадает с точкой пересечения
+		{
+			return true; // Такая точка уже есть в многоугольнике
+		}
+	}
+	return false; // Такой точки нет в многоугольнике
+}
+
 int main(const int argc, char* argv[])
 {
 	//----------ПРОВЕРКА ОШИБОК РАБОТЫ С ФАЙЛАМИ----------
@@ -262,6 +351,21 @@ int main(const int argc, char* argv[])
 	{
 		totalCoordinatesVector[i].push_back(totalCoordinatesVector[i][0]);
 		totalCoordinatesVector[i].push_back(totalCoordinatesVector[i][1]);
+	}
+
+
+	//Удалить координаты первой точки многоугольника из конца многоугольника
+	for (int i = 0; i < numberOfPolygons; i++)
+	{
+		initialCoordinatesVector[i].pop_back();
+		initialCoordinatesVector[i].pop_back();
+	}
+
+	//Удалить координаты первой точки многоугольника из конца многоугольника
+	for (int i = 0; i < numberOfPolygons; i++)
+	{
+		totalCoordinatesVector[i].pop_back();
+		totalCoordinatesVector[i].pop_back();
 	}
 
 	if (numberOfPolygons > 1)
