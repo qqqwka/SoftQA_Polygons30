@@ -192,6 +192,212 @@ bool isIntersectionPointAlreadyInVector(vector<double>& vec1, vector<double>& ve
 	return false; // Такой точки нет в многоугольнике
 }
 
+
+/*
+Вставить точку пересечения в вектор, хранящий координаты вершин многоугольника
+\param[in] veci1 - первый вектор без точек пересечения
+\param[in] vecj1 - второй вектор без точек пересечения
+\param[in|out] veci2 - первый вектор с точками пересечения
+\param[in|out] vecj2 - второй вектор с точками пересечения
+*/
+void intersectionPointInsert(vector<double>& veci1, vector<double>& vecj1, vector<double>& veci2, vector<double>& vecj2)
+{
+	double firstX, firstY, secondX, secondY, thirdX, thirdY, fourthX, fourthY; // Координаты двух точек из каждого вектора
+
+	double ResultX, ResultY; // Координаты точки пересечения двух отрезков
+
+	double A, B, C; // Переменные уравнения прямой
+
+	for (int k = 0; k < veci2.size() - 3; k += 2) // Для каждой точки первого вектора с точками пересечения
+	{
+
+		for (int m = 0; m < vecj2.size() - 3; m += 2) // Для каждой точки второго вектора с точками пересечения
+		{
+
+			// Координаты двух точек из каждого вектора
+			firstX = veci2[k];
+			firstY = veci2[k + 1];
+
+			secondX = veci2[k + 2];
+			secondY = veci2[k + 3];
+
+			thirdX = vecj2[m];
+			thirdY = vecj2[m + 1];
+
+			fourthX = vecj2[m + 2];
+			fourthY = vecj2[m + 3];
+
+			if (doSegmentsIntersect(firstX, firstY, secondX, secondY, thirdX, thirdY, fourthX, fourthY) == 1) // Имеют ли два отрезка точку пересечения
+			{
+				findIntersectionPoint(firstX, firstY, secondX, secondY, thirdX, thirdY, fourthX, fourthY, ResultX, ResultY); // Вычислить точку пересечения двух отрезков
+
+				if (isIntersectionPointAlreadyInVector(veci2, vecj1, ResultX, ResultY) == 0) // Если такой точки нет в векторе
+				{
+
+					// Вставить координаты точки в вектор
+					veci2.insert(veci2.begin() + k + 2, ResultX);
+					veci2.insert(veci2.begin() + k + 3, ResultY);
+
+				}
+
+				if (isIntersectionPointAlreadyInVector(vecj2, veci1, ResultX, ResultY) == 0) // Если такой точки нет в векторе
+				{
+
+					// Вставить координаты точки в вектор
+					vecj2.insert(vecj2.begin() + m + 2, ResultX);
+					vecj2.insert(vecj2.begin() + m + 3, ResultY);
+
+				}
+
+			}
+		}
+	}
+}
+
+
+/*
+Определить, есть ли одинаковые точки в двух многоугольниках
+\param[in] vec1 - первый многоугольник
+\param[in] vec2 - второй многоугольник
+*/
+bool areThereCommonPointsInPolygons(vector<double>& vec1, vector<double>& vec2)
+{
+
+	int commonPCheck = 0; // Счетчик одинаковых точек
+
+	for (int i = 0; i < vec1.size() - 1; i += 2) // Для каждой точки первого вектора
+	{
+		for (int j = 0; j < vec2.size() - 1; j += 2) // Для каждой точки второго вектора
+		{
+			if (vec1[i] == vec2[j] && vec1[i + 1] == vec2[j + 1]) // Если точки совпадают
+			{
+				commonPCheck = commonPCheck + 1; // Увеличить счетчик на 1
+			}
+		}
+	}
+
+	if (commonPCheck < 2) // Если счетчик меньше 2
+	{
+		return false; // Одинаковых точек нет (или она одна)
+	}
+	else // Иначе
+	{
+		return true; // Одинаковые точки есть (их две или больше)
+	}
+}
+
+
+/*
+Объединить два многоугольника в один
+\param[in|out] vec1 - первый многоугольник
+\param[in] vec2 - второй многоугольник
+*/
+void combiningPolygons(vector<double>& vec1, vector<double>& vec2)
+{
+	for (int i = 0; i < vec1.size() - 1; i += 2) // Для каждой точки первого вектора
+	{
+		for (int j = 0; j < vec2.size() - 1; j += 2) // Для каждой точки второго вектора
+		{
+			if (vec2.size() == 0) // Если размер второго вектора равен нулю
+			{
+				break; // Выйти из цикла
+			}
+
+			if (vec1[i] == vec2[j]) // Если координаты i первого многоугольника и j второго многоугольника равны
+			{
+				if (vec1[i + 1] == vec2[j + 1]) // Если координаты i+1 первого многоугольника и j+1 второго многоугольника равны
+				{
+					if (vec2.size() == 0) // Если размер второго вектора равен нулю
+					{
+						break; // Выйти из цикла
+					}
+
+					if (j == vec2.size() - 2) // Если итератор во втором векторе дошел до последней точки 
+					{
+						// Стереть эту точку из второго вектора
+						vec2.erase(vec2.begin() + j);
+						vec2.erase(vec2.begin() + j);
+
+						j = 0; // Перейти к первой точке второго вектора
+
+						for (int k = i; k < vec1.size() - 1; k += 2)
+						{
+							if (vec2.size() == 0) // Если размер второго вектора равен нулю
+							{
+								break; // Выйти из цикла
+							}
+
+							if (vec1[k + 2] != vec2[j] || vec1[k + 3] != vec2[j + 1])
+							{
+								// Вставить эту точку в первый вектор
+								vec1.insert(vec1.begin() + k + 2, vec2[j]);
+								vec1.insert(vec1.begin() + k + 3, vec2[j + 1]);
+
+								// Стереть эту точку из второго вектора
+								vec2.erase(vec2.begin() + j);
+								vec2.erase(vec2.begin() + j);
+
+							}
+
+							if (vec1[k + 2] == vec2[j] && vec1[k + 3] == vec2[j + 1]) // Если следующая после i-ой точка первого вектора равна точке второго вектора 
+							{
+								// Стереть эту точку из второго вектора
+								vec2.erase(vec2.begin() + j);
+								vec2.erase(vec2.begin() + j);
+
+								break; // Выйти из цикла
+							}
+
+						}
+
+					}
+					else
+					{
+						// Стереть эту точку из второго вектора
+						vec2.erase(vec2.begin() + j);
+						vec2.erase(vec2.begin() + j);
+
+						for (int k = i; k < vec1.size() - 1; k += 2)
+						{
+							if (vec2.size() == 0) // Если размер второго вектора равен нулю
+							{
+								break; // Выйти из цикла
+							}
+
+							if (vec1[k + 2] != vec2[j] || vec1[k + 3] != vec2[j + 1]) // Если следующая после i-ой точка первого вектора не равна точке второго вектора 
+							{
+								// Вставить эту точку в первый вектор
+								vec1.insert(vec1.begin() + k + 2, vec2[j]);
+								vec1.insert(vec1.begin() + k + 3, vec2[j + 1]);
+
+								// Стереть эту точку из второго вектора
+								vec2.erase(vec2.begin() + j);
+								vec2.erase(vec2.begin() + j);
+
+							}
+
+							if (vec2.size() <= 2) // Если размер второго вектора меньше либо равен 2
+							{
+								break; // Выйти из цикла
+							}
+
+							if (vec1[k + 2] == vec2[j] && vec1[k + 3] == vec2[j + 1]) // Если следующая после i-ой точка первого вектора равна точке второго вектора 
+							{
+								// Стереть эту точку из второго вектора
+								vec2.erase(vec2.begin() + j);
+								vec2.erase(vec2.begin() + j);
+
+								break; // Выйти из цикла
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+
 int main(const int argc, char* argv[])
 {
 	//----------ПРОВЕРКА ОШИБОК РАБОТЫ С ФАЙЛАМИ----------
@@ -353,6 +559,26 @@ int main(const int argc, char* argv[])
 		totalCoordinatesVector[i].push_back(totalCoordinatesVector[i][1]);
 	}
 
+	for (int i = 0; i < numberOfPolygons; i++) // Для каждого вектора
+	{
+		for (int j = 0; j < numberOfPolygons; j++)
+		{
+			if (i == j && i != numberOfPolygons - 1)
+			{
+				j = j + 1;
+			}
+
+			if (i == j && i == numberOfPolygons - 1)
+			{
+				break;
+			}
+
+			// Вставить точку пересечения в многоугольник
+			intersectionPointInsert(initialCoordinatesVector[i], initialCoordinatesVector[j], totalCoordinatesVector[i], totalCoordinatesVector[j]);
+
+		}
+	}
+
 
 	//Удалить координаты первой точки многоугольника из конца многоугольника
 	for (int i = 0; i < numberOfPolygons; i++)
@@ -367,6 +593,55 @@ int main(const int argc, char* argv[])
 		totalCoordinatesVector[i].pop_back();
 		totalCoordinatesVector[i].pop_back();
 	}
+
+
+	for (int i = 0; i < numberOfPolygons; i++) // Для каждого вектора
+	{
+		for (int j = 0; j < numberOfPolygons; j++) // Для каждого вектора
+		{
+			if (i == j && i != numberOfPolygons - 1)
+			{
+				j = j + 1;
+			}
+
+			if (i == j && i == numberOfPolygons - 1)
+			{
+				break;
+			}
+
+			//ПОВЕРКА, ЕСТЬ ЛИ В ДВУХ ВЕКТОРАХ КАК МИНИМУМ ДВЕ ОБЩИЕ ТОЧКИ
+			if (areThereCommonPointsInPolygons(totalCoordinatesVector[i], totalCoordinatesVector[j]) == 1)
+			{
+				//ОБЪЕДИНЕНИЕ ДВУХ МНОГОУГОЛЬНИКОВ
+				if (totalCoordinatesVector[i][1] <= totalCoordinatesVector[j][1]) // Если Y первой точки первого вектора меньше или равен Y первой точки второго вектора
+				{
+					combiningPolygons(totalCoordinatesVector[i], totalCoordinatesVector[j]);
+					totalCoordinatesVector.erase(totalCoordinatesVector.begin() + j);
+					numberOfPolygons = totalCoordinatesVector.size();
+					break;
+				}
+
+				if (totalCoordinatesVector[j][1] < totalCoordinatesVector[i][1]) // //Если Y первой точки второго вектора меньше или равен Y первой точки первого вектора
+				{
+					combiningPolygons(totalCoordinatesVector[j], totalCoordinatesVector[i]);
+					totalCoordinatesVector.erase(totalCoordinatesVector.begin() + i);
+					numberOfPolygons = totalCoordinatesVector.size();
+					break;
+				}
+
+				if (numberOfPolygons == 1) // Если остался один многоугольник
+				{
+					break; // Выйти из цикла
+				}
+
+			}
+		}
+		if (numberOfPolygons == 1) // Если остался один многоугольник
+		{
+			break; // Выйти из цикла
+		}
+	}
+
 
 	if (numberOfPolygons > 1)
 	{
