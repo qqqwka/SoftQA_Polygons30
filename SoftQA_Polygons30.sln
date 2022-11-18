@@ -20,6 +20,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "findIntersectionPointTest",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "doSegmentsIntersectTest", "doSegmentsIntersectTest\doSegmentsIntersectTest.vcxproj", "{0A05F4B0-DA1F-48A8-9528-D1AF04DBE6CD}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CrossProductTest", "CrossProductTest\CrossProductTest.vcxproj", "{9177BE11-E80E-45AE-95F1-239A0A5D176A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -84,6 +86,14 @@ Global
 		{0A05F4B0-DA1F-48A8-9528-D1AF04DBE6CD}.Release|x64.Build.0 = Release|x64
 		{0A05F4B0-DA1F-48A8-9528-D1AF04DBE6CD}.Release|x86.ActiveCfg = Release|Win32
 		{0A05F4B0-DA1F-48A8-9528-D1AF04DBE6CD}.Release|x86.Build.0 = Release|Win32
+		{9177BE11-E80E-45AE-95F1-239A0A5D176A}.Debug|x64.ActiveCfg = Debug|x64
+		{9177BE11-E80E-45AE-95F1-239A0A5D176A}.Debug|x64.Build.0 = Debug|x64
+		{9177BE11-E80E-45AE-95F1-239A0A5D176A}.Debug|x86.ActiveCfg = Debug|Win32
+		{9177BE11-E80E-45AE-95F1-239A0A5D176A}.Debug|x86.Build.0 = Debug|Win32
+		{9177BE11-E80E-45AE-95F1-239A0A5D176A}.Release|x64.ActiveCfg = Release|x64
+		{9177BE11-E80E-45AE-95F1-239A0A5D176A}.Release|x64.Build.0 = Release|x64
+		{9177BE11-E80E-45AE-95F1-239A0A5D176A}.Release|x86.ActiveCfg = Release|Win32
+		{9177BE11-E80E-45AE-95F1-239A0A5D176A}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
