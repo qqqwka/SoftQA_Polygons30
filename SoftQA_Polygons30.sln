@@ -24,6 +24,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CrossProductTest", "CrossPr
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "combiningPolygonsTest", "combiningPolygonsTest\combiningPolygonsTest.vcxproj", "{EE3E0A3C-7916-473D-A738-AFA7F75EE2EF}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "areThereCommonPointsInPolygonsTest", "areThereCommonPointsInPolygonsTest\areThereCommonPointsInPolygonsTest.vcxproj", "{F815FCDA-E9D9-47B1-B7A7-44CD8E42B758}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -104,6 +106,14 @@ Global
 		{EE3E0A3C-7916-473D-A738-AFA7F75EE2EF}.Release|x64.Build.0 = Release|x64
 		{EE3E0A3C-7916-473D-A738-AFA7F75EE2EF}.Release|x86.ActiveCfg = Release|Win32
 		{EE3E0A3C-7916-473D-A738-AFA7F75EE2EF}.Release|x86.Build.0 = Release|Win32
+		{F815FCDA-E9D9-47B1-B7A7-44CD8E42B758}.Debug|x64.ActiveCfg = Debug|x64
+		{F815FCDA-E9D9-47B1-B7A7-44CD8E42B758}.Debug|x64.Build.0 = Debug|x64
+		{F815FCDA-E9D9-47B1-B7A7-44CD8E42B758}.Debug|x86.ActiveCfg = Debug|Win32
+		{F815FCDA-E9D9-47B1-B7A7-44CD8E42B758}.Debug|x86.Build.0 = Debug|Win32
+		{F815FCDA-E9D9-47B1-B7A7-44CD8E42B758}.Release|x64.ActiveCfg = Release|x64
+		{F815FCDA-E9D9-47B1-B7A7-44CD8E42B758}.Release|x64.Build.0 = Release|x64
+		{F815FCDA-E9D9-47B1-B7A7-44CD8E42B758}.Release|x86.ActiveCfg = Release|Win32
+		{F815FCDA-E9D9-47B1-B7A7-44CD8E42B758}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
