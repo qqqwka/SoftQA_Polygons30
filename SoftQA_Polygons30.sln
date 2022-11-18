@@ -22,6 +22,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "doSegmentsIntersectTest", "
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CrossProductTest", "CrossProductTest\CrossProductTest.vcxproj", "{9177BE11-E80E-45AE-95F1-239A0A5D176A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "combiningPolygonsTest", "combiningPolygonsTest\combiningPolygonsTest.vcxproj", "{EE3E0A3C-7916-473D-A738-AFA7F75EE2EF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -94,6 +96,14 @@ Global
 		{9177BE11-E80E-45AE-95F1-239A0A5D176A}.Release|x64.Build.0 = Release|x64
 		{9177BE11-E80E-45AE-95F1-239A0A5D176A}.Release|x86.ActiveCfg = Release|Win32
 		{9177BE11-E80E-45AE-95F1-239A0A5D176A}.Release|x86.Build.0 = Release|Win32
+		{EE3E0A3C-7916-473D-A738-AFA7F75EE2EF}.Debug|x64.ActiveCfg = Debug|x64
+		{EE3E0A3C-7916-473D-A738-AFA7F75EE2EF}.Debug|x64.Build.0 = Debug|x64
+		{EE3E0A3C-7916-473D-A738-AFA7F75EE2EF}.Debug|x86.ActiveCfg = Debug|Win32
+		{EE3E0A3C-7916-473D-A738-AFA7F75EE2EF}.Debug|x86.Build.0 = Debug|Win32
+		{EE3E0A3C-7916-473D-A738-AFA7F75EE2EF}.Release|x64.ActiveCfg = Release|x64
+		{EE3E0A3C-7916-473D-A738-AFA7F75EE2EF}.Release|x64.Build.0 = Release|x64
+		{EE3E0A3C-7916-473D-A738-AFA7F75EE2EF}.Release|x86.ActiveCfg = Release|Win32
+		{EE3E0A3C-7916-473D-A738-AFA7F75EE2EF}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
