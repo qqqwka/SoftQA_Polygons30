@@ -13,13 +13,13 @@ int main(int argc, char* argv[])
 	//Выдать ошибку, если входной файл не указан в аргументах командной строки
 	if (argc == 1)
 	{
-		cout << "Неверно указан файл с входными данными. Возможно, файл по указанному расположению не существует.\n";
+		cout << "The input data file is specified incorrectly. It is possible that the file at the specified location does not exist.\n";
 		return 1;
 	}
 	//Выдать ошибку, если выходной файл не указан в аргументах командной строки
 	if (argc == 2)
 	{
-		cout << "Неверно указан файл с выходными данными. Возможно, файл по указанному расположению не существует.\n";
+		cout << "The output data file is specified incorrectly. It is possible that the file at the specified location does not exist.\n";
 		return 2;
 	}
 
@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
 	inputFile.open(argv[1]);
 	if (!inputFile.is_open()) //Выдать ошибку,если входной файл невозможно открыть
 	{
-		cout << "Невозможно открыть файл с входными данными. Возможно,файл имеет неправильное расширение.";
+		cout << "The input data file cannot be opened. The file may have the wrong extension.";
 		return 3;
 	}
 
@@ -36,7 +36,7 @@ int main(int argc, char* argv[])
 	outputFile.open(argv[2]);
 	if (!outputFile.is_open()) //Выдать ошибку,если выходной файл невозможно открыть
 	{
-		cout << "Невозможно открыть файл с выходными данными. Возможно,файл имеет неправильное расширение.";
+		cout << "The output data file cannot be opened. The file may have the wrong extension.";
 		return 4;
 	}
 	else
