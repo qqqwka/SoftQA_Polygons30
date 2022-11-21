@@ -6,6 +6,8 @@
 
 using namespace std;
 
+
+
 int main(int argc, char* argv[])
 {
 	//----------ПРОВЕРКА ОШИБОК РАБОТЫ С ФАЙЛАМИ----------
