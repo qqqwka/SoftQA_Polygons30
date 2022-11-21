@@ -117,7 +117,7 @@ namespace CrossProductTest
 
 			answer1 = CrossProduct(test1);
 
-			Assert::AreEqual(answer1, 0);
+			Assert::AreEqual(answer1, -1);
 		}
 	};
 }
