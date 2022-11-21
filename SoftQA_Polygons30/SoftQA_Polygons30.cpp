@@ -106,31 +106,9 @@ int main(int argc, char* argv[])
 				initialCoordinatesVector[i][j] = coordinateItself; // Записать координату в многоугольник 
 			}
 
-			//if (numberOfVertices > 4) // Если вершин многоугольника больше 4
-			//{
-			//	if (isPolygonConvex(initialCoordinatesVector[i]) == 0) // проверить многоугольник на выпуклость
-			//	{
-			//		outputFile << "Polygon specified " << i + 1 << " is non-convex." << endl;
-			//		return 0;
-			//	}
-			//}
-
 		}
 
 	}
-
-	//for (int i = 0; i < numberOfPolygons; i++) // Для каждой координаты многоугольника
-	//{
-	//	for (int j = 0; j < initialCoordinatesVector[i].size(); j++) // Для каждой координаты многоугольника
-	//	{
-	//		outputFile << initialCoordinatesVector[i][j];
-
-	//	}
-	//	outputFile << "\n";
-
-	//}
-	//outputFile.close();
-	//return 0;
 
 	for (int i = 0; i < numberOfPolygons; i++) // Для каждого многоугольника
 	{
@@ -143,32 +121,6 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
-
-	////ПРОВЕРКА НА ПОВТОРЯЮЩИЕСЯ ТОЧКИ В МНОГОУГОЛЬНИКЕ
-	//for (int i = 0; i < numberOfPolygons; i++) // Для каждого многоугольника
-	//{
-	//	for (int j = 0; j < initialCoordinatesVector[i].size() - 1; i += 2) // Для каждого многоугольника
-	//	{
-	//		for (int k = 0; k < initialCoordinatesVector[i].size() - 1; k += 2) // Для каждого многоугольника
-	//		{
-	//			if (k == j && k != initialCoordinatesVector[i].size() - 2)
-	//			{
-	//				k = k + 2;
-	//			}
-
-	//			if (k == j && k == initialCoordinatesVector[i].size() - 2)
-	//			{
-	//				break;
-	//			}
-
-	//			if (initialCoordinatesVector[i][j] == initialCoordinatesVector[i][k] && initialCoordinatesVector[i][j + 1] == initialCoordinatesVector[i][k + 1]) // проверить на наличие одинаковых точек в многоугольнике
-	//			{
-	//				outputFile << "Polygon " << i + 1 << " specified incorrectly. There are recurring points." << endl;
-	//				return 0;
-	//			}
-	//		}
-	//	}
-	//}
 
 	totalCoordinatesVector.resize(numberOfPolygons);
 
