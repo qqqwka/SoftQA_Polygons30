@@ -6,8 +6,6 @@
 
 using namespace std;
 
-
-
 int main(int argc, char* argv[])
 {
 	//----------ПРОВЕРКА ОШИБОК РАБОТЫ С ФАЙЛАМИ----------
@@ -208,7 +206,7 @@ int main(int argc, char* argv[])
 						{
 							totalCoordinatesVector[j].erase(totalCoordinatesVector[j].begin() + e); //Удалить эту точку из вектора
 							totalCoordinatesVector[j].erase(totalCoordinatesVector[j].begin() + e); //Удалить эту точку из вектора
-							e = -2;
+							//e = e - 2;
 						}
 					}
 				}
@@ -245,10 +243,8 @@ int main(int argc, char* argv[])
 					{
 						j = -2;
 					}
-					break;
 				}
-
-				if (totalCoordinatesVector[j][1] < totalCoordinatesVector[i][1]) // //Если Y первой точки второго вектора меньше или равен Y первой точки первого вектора
+				else if(totalCoordinatesVector[j][1] < totalCoordinatesVector[i][1]) // //Если Y первой точки второго вектора меньше или равен Y первой точки первого вектора
 				{
 					combiningPolygons(totalCoordinatesVector[j], totalCoordinatesVector[i]);
 					totalCoordinatesVector.erase(totalCoordinatesVector.begin() + i);
@@ -258,7 +254,6 @@ int main(int argc, char* argv[])
 					{
 						j = -2;
 					}
-					break;
 				}
 
 				if (numberOfPolygons == 1) // Если остался один многоугольник
@@ -281,10 +276,55 @@ int main(int argc, char* argv[])
 		{
 			totalCoordinatesVector.erase(totalCoordinatesVector.begin() + i); // Удалить этот многоугольник
 			numberOfPolygons = numberOfPolygons - 1; // Количество многоугольников уменьшить на 1
+			i = i - 1;
+		}
+	}
+//==============================================
+	if (numberOfPolygons > 1)
+	{
+		//УДАЛЕНИЕ ТОЧЕК ВЕКТОРА, ЕСЛИ ОНИ НАХОДЯТСЯ ВНУТРИ ДРУГОГО ВЕКТОРА
+		for (int i = 0; i < numberOfPolygons; i++) // Для каждого многоугольника
+		{
+			for (int j = 0; j < numberOfPolygons; j++) // Для каждого многоугольника
+			{
+				if (i == j && i != numberOfPolygons - 1)
+				{
+					j = j + 1;
+				}
+
+				if (i == j && i == numberOfPolygons - 1) // если оба итератора дошли до последней координаты второго многоугольника
+				{
+					break; // выйти из цикла
+				}
+
+				for (int e = 0; e < totalCoordinatesVector[j].size() - 1; e += 2)
+				{
+					if (isPointInPolygon(totalCoordinatesVector[j][e], totalCoordinatesVector[j][e + 1], totalCoordinatesVector[i]) == 1) // Если есть точка внутри вектора
+					{
+						if (isIntersectionPointAlreadyInVector(totalCoordinatesVector[i], totalCoordinatesVector[j], totalCoordinatesVector[j][e], totalCoordinatesVector[j][e + 1]) == 0)
+						{
+							totalCoordinatesVector[j].erase(totalCoordinatesVector[j].begin() + e); //Удалить эту точку из вектора
+							totalCoordinatesVector[j].erase(totalCoordinatesVector[j].begin() + e); //Удалить эту точку из вектора
+							//e = e - 2;
+						}
+					}
+				}
+
+			}
 		}
 	}
 
-
+	//УДАЛИТЬ ВЕКТОР С КООРДИНАТАМИ, ЕСЛИ ОСТАЛОСЬ 2 ИЛИ МЕНЬШЕ ВЕРШИНЫ
+	for (int i = 0; i < numberOfPolygons; i++) //Для каждого многоугольника
+	{
+		if (totalCoordinatesVector[i].size() <= 4) // Если в многоугольнике меньше, чем  2 или ровно 2 точки
+		{
+			totalCoordinatesVector.erase(totalCoordinatesVector.begin() + i); // Удалить этот многоугольник
+			numberOfPolygons = numberOfPolygons - 1; // Количество многоугольников уменьшить на 1
+			i = i - 1;
+		}
+	}
+//===========================================
 	for (int i = 0; i < numberOfPolygons; i++) // Цикл, который идёт по строкам
 	{
 		for (int j = 0; j < totalCoordinatesVector[i].size(); j += 2) // Цикл, который идёт по элементам
@@ -398,10 +438,6 @@ bool doSegmentsIntersect(double x1, double y1, double x2, double y2, double x3, 
 	if (0 <= Ua && Ua <= 1 && 0 <= Ub && Ub <= 1) // Если Ua и Ub принадлежат промежутку [0;1]
 	{
 		return true; // Отрезки имеют точку пересечения
-	}
-	else
-	{
-		return false; // Отрезки не имеют точку пересечения
 	}
 	return false; // Отрезки не имеют точку пересечения
 }

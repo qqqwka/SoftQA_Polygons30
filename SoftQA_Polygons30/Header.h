@@ -2,7 +2,8 @@
 
 using namespace std;
 
-/*Структура координат точки*/
+/*!Структура координат точки
+*/
 struct point
 {
 	double x;
