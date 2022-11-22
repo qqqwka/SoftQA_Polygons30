@@ -23,7 +23,6 @@ int main(int argc, char* argv[])
 		return 2;
 	}
 
-
 	ifstream inputFile;	//Файл ввода
 	inputFile.open(argv[1]);
 	if (!inputFile.is_open()) //Выдать ошибку,если входной файл невозможно открыть
